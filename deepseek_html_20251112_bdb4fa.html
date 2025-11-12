@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Тест: Основы алгоритмов и программирования</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .test-content {
+            padding: 30px;
+        }
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        .question:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .question-number {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .options {
+            margin: 15px 0;
+        }
+        .option {
+            display: block;
+            margin: 12px 0;
+            padding: 12px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .option:hover {
+            border-color: #3498db;
+            background: #f8f9ff;
+        }
+        .option input {
+            margin-right: 10px;
+        }
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .match-item {
+            padding: 15px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .correct-answer {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+        }
+        .incorrect-answer {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+        .result {
+            margin-top: 30px;
+            padding: 30px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+        .result-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 2px solid #28a745;
+        }
+        .result-warning {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border: 2px solid #f39c12;
+        }
+        .result-danger {
+            background: linear-gradient(135deg, #fab1a0 0%, #e17055 100%);
+            border: 2px solid #d63031;
+        }
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            transition: width 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Тест по алгоритмам и программированию</h1>
+            <p>Проверьте свои знания основ программирования</p>
+        </div>
+        
+        <div class="test-content">
+            <form id="quizForm">
+                
+                <!-- Вопрос 1: Одиночный выбор -->
+                <div class="question" id="q1">
+                    <div class="question-number">Вопрос 1/10</div>
+                    <p>Что такое алгоритм в программировании?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="a"> 
+                            Язык программирования
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="b"> 
+                            Точная последовательность действий для решения задачи
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="c"> 
+                            Тип данных в Python
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="d"> 
+                            Математическая формула
+                        </label>
+                    </div>
+                    <div class="explanation" id="exp1"></div>
+                </div>
+
+                <!-- Вопрос 2: Множественный выбор -->
+                <div class="question" id="q2">
+                    <div class="question-number">Вопрос 2/10</div>
+                    <p>Какие свойства характеризуют алгоритм? (выберите все верные)</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="a"> 
+                            Дискретность
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="b"> 
+                            Определенность
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="c"> 
+                            Случайность
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="d"> 
+                            Результативность
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="e"> 
+                            Массовость
+                        </label>
+                    </div>
+                    <div class="explanation" id="exp2"></div>
+                </div>
+
+                <!-- Вопрос 3: Соответствие -->
+                <div class="question" id="q3">
+                    <div class="question-number">Вопрос 3/10</div>
+                    <p>Установите соответствие между типами данных и их описанием:</p>
+                    <div class="match-container">
+                        <div class="match-item">
+                            <p><strong>Тип данных:</strong></p>
+                            <p>A) int</p>
+                            <p>B) float</p>
+                            <p>C) string</p>
+                            <p>D) boolean</p>
+                        </div>
+                        <div class="match-item">
+                            <p><strong>Описание:</strong></p>
+                            <select name="q3_a">
+                                <option value="">Выберите описание</option>
+                                <option value="1">Логический тип (True/False)</option>
+                                <option value="2">Целочисленные значения</option>
+                                <option value="3">Текстовые данные</option>
+                                <option value="4">Вещественные числа</option>
+                            </select><br><br>
+                            <select name="q3_b">
+                                <option value="">Выберите описание</option>
+                                <option value="1">Логический тип (True/False)</option>
+                                <option value="2">Целочисленные значения</option>
+                                <option value="3">Текстовые данные</option>
+                                <option value="4">Вещественные числа</option>
+                            </select><br><br>
+                            <select name="q3_c">
+                                <option value="">Выберите описание</option>
+                                <option value="1">Логический тип (True/False)</option>
+                                <option value="2">Целочисленные значения</option>
+                                <option value="3">Текстовые данные</option>
+                                <option value="4">Вещественные числа</option>
+                            </select><br><br>
+                            <select name="q3_d">
+                                <option value="">Выберите описание</option>
+                                <option value="1">Логический тип (True/False)</option>
+                                <option value="2">Целочисленные значения</option>
+                                <option value="3">Текстовые данные</option>
+                                <option value="4">Вещественные числа</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="explanation" id="exp3"></div>
+                </div>
+
+                <!-- Вопрос 4: Последовательность -->
+                <div class="question" id="q4">
+                    <div class="question-number">Вопрос 4/10</div>
+                    <p>Расставьте в правильном порядке этапы разработки программы:</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="a"> 
+                            Написание кода → Тестирование → Постановка задачи → Отладка
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="b"> 
+                            Постановка задачи → Написание кода → Тестирование → Отладка
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="c"> 
+                            Тестирование → Постановка задачи → Написание кода → Отладка
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="d"> 
+                            Постановка задачи → Тестирование → Написание кода → Отладка
+                        </label>
+                    </div>
+                    <div class="explanation" id="exp4"></div>
+                </div>
+
+                <!-- Вопрос 5: Одиночный выбор -->
+                <div class="question" id="q5">
+                    <div class="question-number">Вопрос 5/10</div>
+                    <p>Какая алгоритмическая структура используется для многократного повторения действий?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="a"> 
+                            Линейная
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="b"> 
+                            Ветвление
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="c"> 
+                            Цикл
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="d"> 
+                            Рекурсия
+                        </label>
+                    </div>
+                    <div class="explanation" id="exp5"></div>
+                </div>
+
+                <!-- Вопрос 6: Множественный выбор -->
+                <div class="question" id="q6">
+                    <div class="question-number">Вопрос 6/10</div>
+                    <p>Какие операторы используются для ввода и вывода данных в Python? (выберите все верные)</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="checkbox" name="q6" value="a"> 
+                            input()
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q6" value="b"> 
+                            print()
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q6" value="c"> 
+                            read()
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q6" value="d"> 
+                            write()
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q6" value="e"> 
+                            scan()
+                        </label>
+                    </div>
+                    <div class="explanation" id="exp6"></div>
+                </div>
+
+                <!-- Вопрос 7: Соответствие -->
+                <div class="question" id="q7">
+                    <div class="question-number">Вопрос 7/10</div>
+                    <p>Установите соответствие между операторами Python и их назначением:</p>
+                    <div class="match-container">
+                        <div class="match-item">
+                            <p><strong>Оператор:</strong></p>
+                            <p>A) if</p>
+                            <p>B) for</p>
+                            <p>C) while</p>
+                            <p>D) elif</p>
+                        </div>
+                        <div class="match-item">
+                            <p><strong>Назначение:</strong></p>
+                            <select name="q7_a">
+                                <option value="">Выберите назначение</option>
+                                <option value="1">Цикл с известным количеством повторений</option>
+                                <option value="2">Условный оператор</option>
+                                <option value="3">Цикл с условием</option>
+                                <option value="4">Дополнительное условие</option>
+                            </select><br><br>
+                            <select name="q7_b">
+                                <option value="">Выберите назначение</option>
+                                <option value="1">Цикл с известным количеством повторений</option>
+                                <option value="2">Условный оператор</option>
+                                <option value="3">Цикл с условием</option>
+                                <option value="4">Дополнительное условие</option>
+                            </select><br><br>
+                            <select name="q7_c">
+                                <option value="">Выберите назначение</option>
+                                <option value="1">Цикл с известным количеством повторений</option>
+                                <option value="2">Условный оператор</option>
+                                <option value="3">Цикл с условием</option>
+                                <option value="4">Дополнительное условие</option>
+                            </select><br><br>
+                            <select name="q7_d">
+                                <option value="">Выберите назначение</option>
+                                <option value="1">Цикл с известным количеством повторений</option>
+                                <option value="2">Условный оператор</option>
+                                <option value="3">Цикл с условием</option>
+                                <option value="4">Дополнительное условие</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="explanation" id="exp7"></div>
+                </div>
+
+                <!-- Вопрос 8: Одиночный выбор -->
+                <div class="question" id="q8">
+                    <div class="question-number">Вопрос 8/10</div>
+                    <p>Что такое переменная в программировании?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q8" value="a"> 
+                            Математическое уравнение
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="b"> 
+                            Именованная ячейка памяти для хранения данных
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="c"> 
+                            Тип цикла в Python
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="d"> 
+                            Функция для ввода данных
+                        </label>
+                    </div>
+                    <div class="explanation" id="exp8"></div>
+                </div>
+
+                <!-- Вопрос 9: Множественный выбор -->
+                <div class="question" id="q9">
+                    <div class="question-number">Вопрос 9/10</div>
+                    <p>Какие из перечисленных операторов относятся к операциям сравнения? (выберите все верные)</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="checkbox" name="q9" value="a"> 
+                            ==
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q9" value="b"> 
+                            !=
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q9" value="c"> 
+                            &&
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q9" value="d"> 
+                            >
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q9" value="e"> 
+                            <=
+                        </label>
+                    </div>
+                    <div class="explanation" id="exp9"></div>
+                </div>
+
+                <!-- Вопрос 10: Одиночный выбор -->
+                <div class="question" id="q10">
+                    <div class="question-number">Вопрос 10/10</div>
+                    <p>Какой тип тестирования проверяет отдельные функции программы?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q10" value="a"> 
+                            Интеграционное тестирование
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="b"> 
+                            Unit-тестирование
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="c"> 
+                            Функциональное тестирование
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="d"> 
+                            Системное тестирование
+                        </label>
+                    </div>
+                    <div class="explanation" id="exp10"></div>
+                </div>
+
+                <button type="button" class="submit-btn" onclick="checkAnswers()">
+                    ✅ Завершить тест и проверить ответы
+                </button>
+            </form>
+
+            <div id="finalResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Правильные ответы и пояснения для всех 10 вопросов
+        const correctAnswers = {
+            q1: {
+                answer: "b",
+                explanation: "✅ <strong>Правильно!</strong> Алгоритм - это точная последовательность действий, направленная на решение конкретной задачи. Это основное определение из лекции."
+            },
+            q2: {
+                answer: ["a", "b", "d", "e"],
+                explanation: "✅ <strong>Верно!</strong> Свойства алгоритма: дискретность (разделение на шаги), определенность (однозначность), результативность (получение результата), массовость (применимость к разным данным). Случайность не является свойством алгоритма."
+            },
+            q3: {
+                answer: {"q3_a": "2", "q3_b": "4", "q3_c": "3", "q3_d": "1"},
+                explanation: "✅ <strong>Правильное соответствие!</strong> A-2: int - целые числа, B-4: float - вещественные числа, C-3: string - строки, D-1: boolean - логические значения."
+            },
+            q4: {
+                answer: "b",
+                explanation: "✅ <strong>Верная последовательность!</strong> Правильный порядок: 1. Постановка задачи → 2. Написание кода → 3. Тестирование → 4. Отладка. Это классический цикл разработки программ."
+            },
+            q5: {
+                answer: "c",
+                explanation: "✅ <strong>Правильно!</strong> Цикл - это алгоритмическая структура, предназначенная для многократного повторения действий. Линейная структура - последовательное выполнение, ветвление - выбор по условию."
+            },
+            q6: {
+                answer: ["a", "b"],
+                explanation: "✅ <strong>Верно!</strong> В Python для ввода данных используется функция input(), для вывода - print(). Функции read(), write(), scan() не являются стандартными операторами ввода-вывода в Python."
+            },
+            q7: {
+                answer: {"q7_a": "2", "q7_b": "1", "q7_c": "3", "q7_d": "4"},
+                explanation: "✅ <strong>Правильное соответствие!</strong> A-2: if - условный оператор, B-1: for - цикл с известным количеством повторений, C-3: while - цикл с условием, D-4: elif - дополнительное условие."
+            },
+            q8: {
+                answer: "b",
+                explanation: "✅ <strong>Правильно!</strong> Переменная - это именованная ячейка памяти, предназначенная для хранения данных. Имя переменной используется для обращения к stored значению в программе."
+            },
+            q9: {
+                answer: ["a", "b", "d", "e"],
+                explanation: "✅ <strong>Верно!</strong> Операторы сравнения: == (равно), != (не равно), > (больше), <= (меньше или равно). Оператор && - это логическое И в некоторых языках, но не оператор сравнения."
+            },
+            q10: {
+                answer: "b",
+                explanation: "✅ <strong>Правильно!</strong> Unit-тестирование (модульное тестирование) проверяет отдельные функции или модули программы. Интеграционное тестирование проверяет взаимодействие компонентов, функциональное - соответствие требованиям."
+            }
+        };
+
+        function checkAnswers() {
+            let score = 0;
+            let totalQuestions = Object.keys(correctAnswers).length;
+            let resultHTML = "";
+
+            // Проверка каждого вопроса
+            for (let questionId in correctAnswers) {
+                const userAnswer = getUserAnswer(questionId);
+                const correctAnswer = correctAnswers[questionId].answer;
+                const isCorrect = checkAnswer(userAnswer, correctAnswer);
+                
+                const questionElement = document.getElementById(questionId);
+                const explanationElement = document.getElementById(`exp${questionId.slice(1)}`);
+                
+                if (isCorrect) {
+                    score++;
+                    questionElement.style.borderLeftColor = "#28a745";
+                    explanationElement.innerHTML = correctAnswers[questionId].explanation;
+                } else {
+                    questionElement.style.borderLeftColor = "#dc3545";
+                    let correctAnswerText = getAnswerText(questionId, correctAnswer);
+                    explanationElement.innerHTML = `❌ <strong>Неверно.</strong> Правильный ответ: ${correctAnswerText}. ${correctAnswers[questionId].explanation.split('✅')[1] || correctAnswers[questionId].explanation}`;
+                }
+                explanationElement.style.display = 'block';
+            }
+
+            // Показ общего результата
+            const percentage = (score / totalQuestions * 100).toFixed(1);
+            resultHTML += `<h2>🎯 Результаты теста</h2>`;
+            resultHTML += `<div class="score">${score}/${totalQuestions}</div>`;
+            resultHTML += `<div class="progress-bar"><div class="progress" style="width: ${percentage}%"></div></div>`;
+            resultHTML += `<h3>Правильных ответов: ${percentage}%</h3>`;
+            
+            if (percentage >= 90) {
+                resultHTML += `<div class="result-success">
+                    <p>🎉 Отличный результат! Вы отлично усвоили материал по алгоритмам и программированию!</p>
+                    <p><strong>Ваш уровень:</strong> Продвинутый</p>
+                </div>`;
+            } else if (percentage >= 70) {
+                resultHTML += `<div class="result-warning">
+                    <p>👍 Хороший результат! Вы хорошо разбираетесь в основах программирования.</p>
+                    <p><strong>Ваш уровень:</strong> Средний</p>
+                </div>`;
+            } else if (percentage >= 50) {
+                resultHTML += `<div class="result-warning">
+                    <p>📚 Неплохо, но рекомендуется повторить материал лекции.</p>
+                    <p><strong>Ваш уровень:</strong> Начальный</p>
+                </div>`;
+            } else {
+                resultHTML += `<div class="result-danger">
+                    <p>💡 Рекомендуется внимательно изучить лекцию и пройти тест повторно.</p>
+                    <p><strong>Ваш уровень:</strong> Новичок</p>
+                </div>`;
+            }
+
+            resultHTML += `<p style="margin-top: 20px;"><strong>Рекомендация:</strong> Практикуйтесь в написании простых алгоритмов для закрепления материала.</p>`;
+
+            const resultElement = document.getElementById("finalResult");
+            resultElement.innerHTML = resultHTML;
+            resultElement.style.display = "block";
+            resultElement.scrollIntoView({behavior: "smooth"});
+        }
+
+        function getUserAnswer(questionId) {
+            const question = document.getElementById(questionId);
+            
+            // Вопросы с одиночным выбором
+            if (['q1', 'q4', 'q5', 'q8', 'q10'].includes(questionId)) {
+                const selected = question.querySelector(`input[name="${questionId}"]:checked`);
+                return selected ? selected.value : null;
+            } 
+            // Вопросы с множественным выбором
+            else if (['q2', 'q6', 'q9'].includes(questionId)) {
+                const checkboxes = question.querySelectorAll(`input[name="${questionId}"]:checked`);
+                return Array.from(checkboxes).map(cb => cb.value);
+            } 
+            // Вопросы на соответствие
+            else if (['q3', 'q7'].includes(questionId)) {
+                const selects = question.querySelectorAll('select');
+                let answer = {};
+                selects.forEach(select => {
+                    answer[select.name] = select.value;
+                });
+                return answer;
+            }
+        }
+
+        function checkAnswer(userAnswer, correctAnswer) {
+            if (Array.isArray(correctAnswer)) {
+                return arraysEqual(userAnswer.sort(), correctAnswer.sort());
+            } else if (typeof correctAnswer === 'object') {
+                for (let key in correctAnswer) {
+                    if (userAnswer[key] !== correctAnswer[key]) return false;
+                }
+                return true;
+            } else {
+                return userAnswer === correctAnswer;
+            }
+        }
+
+        function arraysEqual(arr1, arr2) {
+            return arr1.length === arr2.length && arr1.every((val, index) => val === arr2[index]);
+        }
+
+        function getAnswerText(questionId, correctAnswer) {
+            // Функция для красивого отображения правильных ответов
+            const answerTexts = {
+                'q1': {
+                    'b': 'Точная последовательность действий для решения задачи'
+                },
+                'q2': {
+                    'correct': 'Дискретность, Определенность, Результативность, Массовость'
+                },
+                'q3': {
+                    'correct': 'A-2 (int), B-4 (float), C-3 (string), D-1 (boolean)'
+                },
+                'q4': {
+                    'b': 'Постановка задачи → Написание кода → Тестирование → Отладка'
+                },
+                'q5': {
+                    'c': 'Цикл'
+                },
+                'q6': {
+                    'correct': 'input(), print()'
+                },
+                'q7': {
+                    'correct': 'A-2 (if), B-1 (for), C-3 (while), D-4 (elif)'
+                },
+                'q8': {
+                    'b': 'Именованная ячейка памяти для хранения данных'
+                },
+                'q9': {
+                    'correct': '==, !=, >, <='
+                },
+                'q10': {
+                    'b': 'Unit-тестирование'
+                }
+            };
+            
+            if (['q2', 'q3', 'q6', 'q7', 'q9'].includes(questionId)) {
+                return answerTexts[questionId].correct;
+            }
+            return answerTexts[questionId]?.[correctAnswer] || correctAnswer;
+        }
+
+        // Добавляем обработчики для улучшения UX
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                if (e.target.type !== 'radio' && e.target.type !== 'checkbox') {
+                    const input = this.querySelector('input');
+                    if (input.type === 'radio') {
+                        input.checked = true;
+                    } else {
+                        input.checked = !input.checked;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
